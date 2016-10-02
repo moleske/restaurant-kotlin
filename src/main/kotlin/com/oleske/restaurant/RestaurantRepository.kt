@@ -1,6 +1,6 @@
 package com.oleske.restaurant
 
-import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.repository.CrudRepository
 
-interface RestaurantRepository : JpaRepository<Restaurant, Long>{
+interface RestaurantRepository : CrudRepository<Restaurant, Long> {
 }

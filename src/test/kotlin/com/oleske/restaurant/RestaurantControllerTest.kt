@@ -36,6 +36,7 @@ class RestaurantControllerTest : Test() {
                     rating = 0,
                     michelinStarRating = 1, zagatRating = 2
             )
+
             val restaurant = Restaurant(
                     id = 1L,
                     name = "name",
@@ -48,7 +49,9 @@ class RestaurantControllerTest : Test() {
                     rating = 0,
                     michelinStarRating = 1, zagatRating = 2
             )
+
             `when`(mockRestaurantRepository.save(Matchers.any(Restaurant::class.java))).thenReturn(restaurant)
+
             mvc.perform(post("/newRestaurant")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)))

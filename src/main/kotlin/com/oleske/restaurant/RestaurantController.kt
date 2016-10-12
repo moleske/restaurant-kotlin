@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class RestaurantController constructor(val restaurantRepository: RestaurantRepository) {
+class RestaurantController(val restaurantRepository: RestaurantRepository) {
 
     @PostMapping("/newRestaurant")
     fun createRestaurant(@RequestBody restaurant: Restaurant) =

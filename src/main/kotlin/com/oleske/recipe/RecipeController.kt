@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class RecipeController constructor(val recipeRepository: RecipeRepository) {
+class RecipeController(val recipeRepository: RecipeRepository) {
 
     @PostMapping("/newRecipe")
     fun createRecipe(@RequestBody recipe: Recipe) =

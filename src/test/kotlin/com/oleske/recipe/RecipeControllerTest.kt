@@ -8,8 +8,8 @@ import org.mockito.Mockito.*
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
 class RecipeControllerTest : Test() {
@@ -49,6 +49,44 @@ class RecipeControllerTest : Test() {
                     .andExpect(jsonPath("$.ingredients[0].category").value(IngredientCategory.DAIRY.toString()))
                     .andExpect(jsonPath("$.chef").value("Swedish Chef"))
             verify(mockRecipeRepository).save(request)
+        }
+
+        describe("recipeContainsSignificantAmountOfDairy when recipe has ") {
+            test("is null returns false") {
+                `when`(mockRecipeRepository.findOne(anyLong())).thenReturn(null)
+                mvc.perform(get("/recipeHasDairy?id=1")).andExpect(status().isOk).andExpect(content().string("false"))
+                verify(mockRecipeRepository).findOne(1L)
+            }
+
+            test("has dairy ingredient returns true") {
+                val recipe = Recipe(
+                        id = 1L,
+                        ingredients = listOf(Ingredient("Milk", IngredientCategory.DAIRY)),
+                        chef = "Swedish Chef")
+                `when`(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe)
+                mvc.perform(get("/recipeHasDairy?id=1")).andExpect(status().isOk).andExpect(content().string("true"))
+                verify(mockRecipeRepository).findOne(1L)
+            }
+
+            test("has no dairy ingredient returns false") {
+                val recipe = Recipe(
+                        id = 1L,
+                        ingredients = listOf(Ingredient("Not Milk", IngredientCategory.NUT)),
+                        chef = "Swedish Chef")
+                `when`(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe)
+                mvc.perform(get("/recipeHasDairy?id=1")).andExpect(status().isOk).andExpect(content().string("false"))
+                verify(mockRecipeRepository).findOne(1L)
+            }
+
+            test("has null ingredient returns false") {
+                val recipe = Recipe(
+                        id = 1L,
+                        ingredients = listOf(Ingredient("Not Milk", null)),
+                        chef = "Swedish Chef")
+                `when`(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe)
+                mvc.perform(get("/recipeHasDairy?id=1")).andExpect(status().isOk).andExpect(content().string("false"))
+                verify(mockRecipeRepository).findOne(1L)
+            }
         }
     }
 }

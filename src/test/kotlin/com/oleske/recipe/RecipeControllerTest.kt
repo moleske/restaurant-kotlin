@@ -2,26 +2,36 @@ package com.oleske.recipe
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.damo.aspen.Test
+import io.damo.aspen.spring.SpringTestTreeRunner
 import org.hamcrest.Matchers.hasSize
+import org.junit.runner.RunWith
 import org.mockito.Matchers
 import org.mockito.Mockito.*
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
+import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
+@RunWith(SpringTestTreeRunner::class)
+@WebMvcTest(RecipeController::class)
 class RecipeControllerTest : Test() {
 
+    @Autowired
     lateinit var mvc: MockMvc
+    @MockBean
     lateinit var mockRecipeRepository: RecipeRepository
     val objectMapper = ObjectMapper()
 
     init {
         before {
-            mockRecipeRepository = mock(RecipeRepository::class.java)
-            mvc = MockMvcBuilders.standaloneSetup(RecipeController(mockRecipeRepository)).build()
+//            mockRecipeRepository = mock(RecipeRepository::class.java)
+//            mvc = MockMvcBuilders.standaloneSetup(RecipeController(mockRecipeRepository)).build()
         }
 
         test("create returns 201") {

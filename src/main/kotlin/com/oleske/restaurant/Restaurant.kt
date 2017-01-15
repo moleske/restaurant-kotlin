@@ -18,5 +18,6 @@ data class Restaurant(
         val fullDescription: String,
         val websiteUrl: String,
         val rating: Int,
-        val michelinStarRating: Int, val zagatRating: Int
+        val michelinStarRating: Int,
+        val zagatRating: Int
 )

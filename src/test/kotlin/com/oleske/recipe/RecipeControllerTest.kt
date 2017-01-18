@@ -48,13 +48,18 @@ class RecipeControllerTest : Test() {
                     .andExpect(jsonPath("$.ingredients[0].name").value("Milk"))
                     .andExpect(jsonPath("$.ingredients[0].category").value(IngredientCategory.DAIRY.toString()))
                     .andExpect(jsonPath("$.chef").value("Swedish Chef"))
+
             verify(mockRecipeRepository).save(request)
         }
 
-        describe("recipeContainsSignificantAmountOfDairy when recipe has ") {
+        describe("recipeContainsSignificantAmountOfDairy when recipe ") {
             test("is null returns false") {
                 `when`(mockRecipeRepository.findOne(anyLong())).thenReturn(null)
-                mvc.perform(get("/recipeHasDairy?id=1")).andExpect(status().isOk).andExpect(content().string("false"))
+
+                mvc.perform(get("/recipeHasDairy?id=1"))
+                        .andExpect(status().isOk)
+                        .andExpect(jsonPath("hasDairy").value("false"))
+
                 verify(mockRecipeRepository).findOne(1L)
             }
 
@@ -64,7 +69,11 @@ class RecipeControllerTest : Test() {
                         ingredients = listOf(Ingredient("Milk", IngredientCategory.DAIRY)),
                         chef = "Swedish Chef")
                 `when`(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe)
-                mvc.perform(get("/recipeHasDairy?id=1")).andExpect(status().isOk).andExpect(content().string("true"))
+
+                mvc.perform(get("/recipeHasDairy?id=1"))
+                        .andExpect(status().isOk)
+                        .andExpect(jsonPath("hasDairy").value("true"))
+
                 verify(mockRecipeRepository).findOne(1L)
             }
 
@@ -74,7 +83,11 @@ class RecipeControllerTest : Test() {
                         ingredients = listOf(Ingredient("Not Milk", IngredientCategory.NUT)),
                         chef = "Swedish Chef")
                 `when`(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe)
-                mvc.perform(get("/recipeHasDairy?id=1")).andExpect(status().isOk).andExpect(content().string("false"))
+
+                mvc.perform(get("/recipeHasDairy?id=1"))
+                        .andExpect(status().isOk)
+                        .andExpect(jsonPath("hasDairy").value("false"))
+
                 verify(mockRecipeRepository).findOne(1L)
             }
 
@@ -84,7 +97,11 @@ class RecipeControllerTest : Test() {
                         ingredients = listOf(Ingredient("Not Milk", null)),
                         chef = "Swedish Chef")
                 `when`(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe)
-                mvc.perform(get("/recipeHasDairy?id=1")).andExpect(status().isOk).andExpect(content().string("false"))
+
+                mvc.perform(get("/recipeHasDairy?id=1"))
+                        .andExpect(status().isOk)
+                        .andExpect(jsonPath("hasDairy").value("false"))
+
                 verify(mockRecipeRepository).findOne(1L)
             }
         }

@@ -10,8 +10,8 @@ import javax.persistence.Id
 data class Recipe(
         @Id
         @GeneratedValue(strategy = IDENTITY)
-        val id: Long? = null,
+        val id: Long?,
         @ElementCollection
-        val ingredients: List<Ingredient> = emptyList(),
-        val chef: String = ""
+        val ingredients: List<Ingredient>,
+        val chef: String
 )

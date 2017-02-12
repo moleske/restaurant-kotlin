@@ -1,0 +1,88 @@
+= Restaurant Kotlin Service API Guide
+:doctype: book
+:toc:
+
+[[overview]]
+= Overview
+
+[[overview-http-verbs]]
+== HTTP verbs
+
+Restaurant Service tries to be restful with its verbs (though its url's need to be better)
+
+[cols="20,80"]
+|===
+| Verb | Usage
+
+| `GET`
+| Used to retrieve a resource
+
+| `POST`
+| Used to create a new resource
+
+|===
+
+[[overview-http-status-codes]]
+== HTTP status codes
+
+Restaurant Service tries to be sane with its HTTP status codes.
+
+[cols="20,80"]
+|===
+| Status code | Usage
+
+| `200 OK`
+| The request completed successfully
+
+| `400 Bad Request`
+| The request was malformed. The response body will include an error providing further information
+
+| `404 Not Found`
+| The requested resource did not exist.
+
+|===
+
+[[recipe]]
+== Recipe
+
+A `POST` request will create a new recipe
+
+=== Request structure
+
+[cols="20,20,60"]
+include::{snippets}/newRecipe/request-fields.adoc[]
+
+=== Example request
+
+[cols="20,20,60"]
+include::{snippets}/newRecipe/curl-request.adoc[]
+
+=== Response structure
+
+[cols="20,20,60"]
+include::{snippets}/newRecipe/response-fields.adoc[]
+
+=== Example response
+
+[cols="20,20,60"]
+include::{snippets}/newRecipe/http-response.adoc[]
+
+[[recipeHasDairy]]
+== Recipe Has Dairy
+
+A `GET` request will return boolean if the recipe id has dairy ingredient
+
+=== Example request
+
+[cols="20,20,60"]
+include::{snippets}/recipeHasDairy/curl-request.adoc[]
+
+=== Response structure
+
+[cols="20,20,60"]
+include::{snippets}/recipeHasDairy/response-fields.adoc[]
+
+=== Example response
+
+[cols="20,20,60"]
+include::{snippets}/recipeHasDairy/http-response.adoc[]

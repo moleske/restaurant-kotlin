@@ -8,7 +8,7 @@ buildscript {
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
         classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
-        classpath "org.jetbrains.kotlin:kotlin-noarg:$kotlinVersion"
+        classpath("org.jetbrains.kotlin:kotlin-noarg:$kotlinVersion")
     }
 }
 
@@ -32,9 +32,10 @@ dependencies {
     compile('org.hsqldb:hsqldb')
     compile('com.fasterxml.jackson.module:jackson-module-kotlin:2.8.4')
     compile("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
+
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('io.damo.aspen:aspen-spring:2.0.0')
     testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+    testCompile('io.damo.aspen:aspen-spring:2.0.0')
 }
 
 ext {
@@ -48,13 +49,14 @@ test {
 asciidoctor {
     attributes 'snippets': snippetsDir
     inputs.dir snippetsDir
+    outputDir 'build/asciidoc'
     dependsOn test
 }
 
 jar {
     dependsOn asciidoctor
     from("${asciidoctor.outputDir}/html5") {
-        into 'static/docs'
+        into 'static'
     }
     baseName = 'wnk'
     version = '0.0.1-SNAPSHOT'

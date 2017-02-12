@@ -34,7 +34,8 @@ class RestaurantControllerTest : Test() {
                     fullDescription = "fullDescription",
                     websiteUrl = "websiteUrl",
                     rating = 0,
-                    michelinStarRating = 1, zagatRating = 2
+                    michelinStarRating = 1,
+                    zagatRating = 2
             )
 
             val restaurant = Restaurant(
@@ -47,7 +48,8 @@ class RestaurantControllerTest : Test() {
                     fullDescription = "fullDescription",
                     websiteUrl = "websiteUrl",
                     rating = 0,
-                    michelinStarRating = 1, zagatRating = 2
+                    michelinStarRating = 1,
+                    zagatRating = 2
             )
 
             `when`(mockRestaurantRepository.save(Matchers.any(Restaurant::class.java))).thenReturn(restaurant)

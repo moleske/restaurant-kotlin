@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.oleske.recipe.Ingredient
 import com.oleske.recipe.IngredientCategory
 import com.oleske.recipe.Recipe
+import com.oleske.restaurant.Restaurant
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -48,7 +49,7 @@ class DocumentationJavaStyleTest {
                 .apply<DefaultMockMvcBuilder>(documentationConfiguration(restDocumentation)
                         .uris()
                         .withScheme("https")
-                        .withHost("restaurant-java.cfapps.pez.pivotal.io")
+                        .withHost("restaurant-kotlin.cfapps.pez.pivotal.io")
                         .withPort(443))
                 .build()
     }
@@ -92,6 +93,58 @@ class DocumentationJavaStyleTest {
                         ),
                         responseFields(
                                 fieldWithPath("hasDairy").description("Boolean if recipe of Id passed has dairy")
+                        )
+                ))
+    }
+
+    @Test
+    fun restaurantController() {
+        val request = Restaurant(
+                id = null,
+                name = "Swedish Food Company",
+                ownerName = "Kermit the Frog",
+                headChefName = "The Swedish Chef",
+                cuisineType = "Swedish",
+                shortDescription = "Zee best Svedeesh restoorunt! Bork Bork Bork!",
+                fullDescription = "Ve-a serfe-a ell types ooff meetbells tu pleese-a yuoor pelete-a! Nutheeng is tuu guud fur yuoo! Bork Bork Bork!",
+                websiteUrl = "https://swedishfoodcompany.com",
+                rating = 90,
+                michelinStarRating = 7,
+                zagatRating = 5
+        )
+
+        val writeValueAsString = objectMapper.writeValueAsString(request)
+        mockMvc.perform(post("/newRestaurant")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(writeValueAsString))
+                .andExpect(status().isCreated)
+                .andDo(document("newRestaurant",
+                        requestFields(
+                                attributes(key("title").value("Fields for a New Restaurant")),
+                                fieldWithPath("id").ignored(),
+                                fieldWithPath("name").description("Name of Restaurant"),
+                                fieldWithPath("ownerName").description("Name of Owner"),
+                                fieldWithPath("headChefName").description("Name of Head Chef"),
+                                fieldWithPath("cuisineType").description("Type of Cuisine Served"),
+                                fieldWithPath("shortDescription").description("Short Description of Restaurant"),
+                                fieldWithPath("fullDescription").description("Long Description of Restaurant"),
+                                fieldWithPath("websiteUrl").description("Website of Restaurant"),
+                                fieldWithPath("rating").description("Restaurant Rating"),
+                                fieldWithPath("michelinStarRating").description("Michelin Rating"),
+                                fieldWithPath("zagatRating").description("Zagat Rating")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("Id of saved of restaurant"),
+                                fieldWithPath("name").description("Name of Restaurant"),
+                                fieldWithPath("ownerName").description("Name of Owner"),
+                                fieldWithPath("headChefName").description("Name of Head Chef"),
+                                fieldWithPath("cuisineType").description("Type of Cuisine Served"),
+                                fieldWithPath("shortDescription").description("Short Description of Restaurant"),
+                                fieldWithPath("fullDescription").description("Long Description of Restaurant"),
+                                fieldWithPath("websiteUrl").description("Website of Restaurant"),
+                                fieldWithPath("rating").description("Restaurant Rating"),
+                                fieldWithPath("michelinStarRating").description("Michelin Rating"),
+                                fieldWithPath("zagatRating").description("Zagat Rating")
                         )
                 ))
     }

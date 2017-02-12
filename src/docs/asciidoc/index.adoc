@@ -1,14 +1,15 @@
 = Restaurant Kotlin Service API Guide
 :doctype: book
-:toc:
+:toc: left
 
 [[overview]]
-= Overview
+== Overview
+This is a guide to show developers how to interact with this service (though it doesn't try very hard)
 
 [[overview-http-verbs]]
 == HTTP verbs
 
-Restaurant Service tries to be restful with its verbs (though its url's need to be better)
+Restaurant Service tries (though again, not very hard) to be restful with its verbs (though its url's need to be better)
 
 [cols="20,80"]
 |===
@@ -41,6 +42,31 @@ Restaurant Service tries to be sane with its HTTP status codes.
 | The requested resource did not exist.
 
 |===
+
+[[restaurant]]
+== Restaurant
+
+A `POST` request will create a new restaurant
+
+=== Request structure
+
+[cols="20,20,60"]
+include::{snippets}/newRestaurant/request-fields.adoc[]
+
+=== Example request
+
+[cols="20,20,60"]
+include::{snippets}/newRestaurant/curl-request.adoc[]
+
+=== Response structure
+
+[cols="20,20,60"]
+include::{snippets}/newRestaurant/response-fields.adoc[]
+
+=== Example response
+
+[cols="20,20,60"]
+include::{snippets}/newRestaurant/http-response.adoc[]
 
 [[recipe]]
 == Recipe

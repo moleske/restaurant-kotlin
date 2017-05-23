@@ -14,9 +14,7 @@ class RecipeController(val recipeRepository: RecipeRepository) {
     @GetMapping("/recipeHasDairy")
     fun recipeContainsSignificantAmountOfDairy(@RequestParam id: Long): ResponseEntity<String> {
         val recipe = recipeRepository.findOne(id)
-        val result = recipe?.ingredients?.any {
-            ingredient: Ingredient -> ingredient.category == IngredientCategory.DAIRY
-        } ?: false
+        val result = recipe?.ingredients?.any { it.category == IngredientCategory.DAIRY } ?: false
         return ResponseEntity("{ \"hasDairy\":$result}", HttpStatus.OK)
     }
 }

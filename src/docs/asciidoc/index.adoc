@@ -44,7 +44,7 @@ Restaurant Service tries to be sane with its HTTP status codes.
 |===
 
 [[restaurant]]
-== Restaurant
+== Create Restaurant
 
 A `POST` request will create a new restaurant
 
@@ -67,6 +67,30 @@ include::{snippets}/newRestaurant/response-fields.adoc[]
 
 [cols="20,20,60"]
 include::{snippets}/newRestaurant/http-response.adoc[]
+
+== Get Restaurants
+
+A `GET` request will create a new restaurant
+
+=== Request structure
+
+[cols="20,20,60"]
+include::{snippets}/getRestaurant/request-fields.adoc[]
+
+=== Example request
+
+[cols="20,20,60"]
+include::{snippets}/getRestaurant/curl-request.adoc[]
+
+=== Response structure
+
+[cols="20,20,60"]
+include::{snippets}/getRestaurant/response-fields.adoc[]
+
+=== Example response
+
+[cols="20,20,60"]
+include::{snippets}/getRestaurant/http-response.adoc[]
 
 [[recipe]]
 == Recipe

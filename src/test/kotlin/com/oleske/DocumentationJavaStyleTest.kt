@@ -13,23 +13,23 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.restdocs.JUnitRestDocumentation
-import org.springframework.test.context.junit4.SpringRunner
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import org.springframework.web.context.WebApplicationContext
-
-import java.util.Collections.singletonList
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration
+import org.springframework.restdocs.payload.FieldDescriptor
 import org.springframework.restdocs.payload.PayloadDocumentation.*
 import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
 import org.springframework.restdocs.request.RequestDocumentation.requestParameters
 import org.springframework.restdocs.snippet.Attributes.attributes
 import org.springframework.restdocs.snippet.Attributes.key
+import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
+import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.web.context.WebApplicationContext
+
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
@@ -98,7 +98,7 @@ class DocumentationJavaStyleTest {
     }
 
     @Test
-    fun restaurantController() {
+    fun restaurantController_post() {
         val request = Restaurant(
                 id = null,
                 name = "Swedish Food Company",
@@ -145,6 +145,28 @@ class DocumentationJavaStyleTest {
                                 fieldWithPath("rating").description("Restaurant Rating"),
                                 fieldWithPath("michelinStarRating").description("Michelin Rating"),
                                 fieldWithPath("zagatRating").description("Zagat Rating")
+                        )
+                ))
+    }
+
+    @Test
+    fun restaurantController_get() {
+        mockMvc.perform(get("/restaurant"))
+                .andExpect(status().isOk)
+                .andDo(document("getRestaurant",
+                        responseFields(
+                                fieldWithPath("[]").description("An array of restaurants"),
+                                fieldWithPath("[].id").description("Id of saved of restaurant"),
+                                fieldWithPath("[].name").description("Name of Restaurant"),
+                                fieldWithPath("[].ownerName").description("Name of Owner"),
+                                fieldWithPath("[].headChefName").description("Name of Head Chef"),
+                                fieldWithPath("[].cuisineType").description("Type of Cuisine Served"),
+                                fieldWithPath("[].shortDescription").description("Short Description of Restaurant"),
+                                fieldWithPath("[].fullDescription").description("Long Description of Restaurant"),
+                                fieldWithPath("[].websiteUrl").description("Website of Restaurant"),
+                                fieldWithPath("[].rating").description("Restaurant Rating"),
+                                fieldWithPath("[].michelinStarRating").description("Michelin Rating"),
+                                fieldWithPath("[].zagatRating").description("Zagat Rating")
                         )
                 ))
     }

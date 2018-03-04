@@ -3,7 +3,7 @@ package com.oleske.restaurant
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.damo.aspen.Test
 import org.hamcrest.Matchers.hasSize
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
@@ -55,7 +55,7 @@ class RestaurantControllerTest : Test() {
                     zagatRating = 2
             )
 
-            `when`(mockRestaurantRepository.save(Matchers.any(Restaurant::class.java))).thenReturn(restaurant)
+            `when`(mockRestaurantRepository.save(ArgumentMatchers.any(Restaurant::class.java))).thenReturn(restaurant)
 
             mvc.perform(post("/newRestaurant")
                     .contentType(MediaType.APPLICATION_JSON)

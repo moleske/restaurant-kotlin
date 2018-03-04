@@ -3,14 +3,16 @@ package com.oleske.recipe
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.damo.aspen.Test
 import org.hamcrest.Matchers.hasSize
-import org.mockito.Matchers
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import java.util.*
 
 class RecipeControllerTest : Test() {
 
@@ -37,7 +39,7 @@ class RecipeControllerTest : Test() {
                     chef = "Swedish Chef"
             )
 
-            `when`(mockRecipeRepository.save(Matchers.any(Recipe::class.java))).thenReturn(recipe)
+            `when`(mockRecipeRepository.save(ArgumentMatchers.any(Recipe::class.java))).thenReturn(recipe)
 
             mvc.perform(post("/newRecipe")
                     .contentType(MediaType.APPLICATION_JSON)
@@ -54,13 +56,13 @@ class RecipeControllerTest : Test() {
 
         describe("recipeContainsSignificantAmountOfDairy when recipe ") {
             test("is null returns false") {
-                `when`(mockRecipeRepository.findOne(anyLong())).thenReturn(null)
+                `when`(mockRecipeRepository.findById(anyLong())).thenReturn(Optional.ofNullable(null))
 
                 mvc.perform(get("/recipeHasDairy?id=1"))
                         .andExpect(status().isOk)
                         .andExpect(jsonPath("hasDairy").value("false"))
 
-                verify(mockRecipeRepository).findOne(1L)
+                verify(mockRecipeRepository).findById(1L)
             }
 
             test("has dairy ingredient returns true") {
@@ -68,13 +70,13 @@ class RecipeControllerTest : Test() {
                         id = 1L,
                         ingredients = listOf(Ingredient("Milk", IngredientCategory.DAIRY)),
                         chef = "Swedish Chef")
-                `when`(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe)
+                `when`(mockRecipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe))
 
                 mvc.perform(get("/recipeHasDairy?id=1"))
                         .andExpect(status().isOk)
                         .andExpect(jsonPath("hasDairy").value("true"))
 
-                verify(mockRecipeRepository).findOne(1L)
+                verify(mockRecipeRepository).findById(1L)
             }
 
             test("has no dairy ingredient returns false") {
@@ -82,13 +84,13 @@ class RecipeControllerTest : Test() {
                         id = 1L,
                         ingredients = listOf(Ingredient("Not Milk", IngredientCategory.NUT)),
                         chef = "Swedish Chef")
-                `when`(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe)
+                `when`(mockRecipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe))
 
                 mvc.perform(get("/recipeHasDairy?id=1"))
                         .andExpect(status().isOk)
                         .andExpect(jsonPath("hasDairy").value("false"))
 
-                verify(mockRecipeRepository).findOne(1L)
+                verify(mockRecipeRepository).findById(1L)
             }
 
             test("has null ingredient returns false") {
@@ -96,13 +98,13 @@ class RecipeControllerTest : Test() {
                         id = 1L,
                         ingredients = listOf(Ingredient("Not Milk", null)),
                         chef = "Swedish Chef")
-                `when`(mockRecipeRepository.findOne(anyLong())).thenReturn(recipe)
+                `when`(mockRecipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe))
 
                 mvc.perform(get("/recipeHasDairy?id=1"))
                         .andExpect(status().isOk)
                         .andExpect(jsonPath("hasDairy").value("false"))
 
-                verify(mockRecipeRepository).findOne(1L)
+                verify(mockRecipeRepository).findById(1L)
             }
         }
     }

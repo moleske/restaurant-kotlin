@@ -2,6 +2,7 @@ package com.oleske.restaurant
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.hamcrest.Matchers.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
@@ -21,7 +22,7 @@ internal class RestaurantControllerTest {
     @MockBean
     lateinit var mockRestaurantRepository: RestaurantRepository
 
-    private val objectMapper = ObjectMapper()
+    private lateinit var objectMapper: ObjectMapper
     private val restaurant = Restaurant(
             id = 1L,
             name = "name",
@@ -35,6 +36,11 @@ internal class RestaurantControllerTest {
             michelinStarRating = 1,
             zagatRating = 2
     )
+
+    @BeforeEach
+    internal fun setUp() {
+        objectMapper = ObjectMapper()
+    }
 
     @Test
     internal fun `create returns 201`() {
@@ -69,7 +75,6 @@ internal class RestaurantControllerTest {
                 .andExpect(jsonPath("$.rating").value(request.rating))
                 .andExpect(jsonPath("$.michelinStarRating").value(request.michelinStarRating))
                 .andExpect(jsonPath("$.zagatRating").value(request.zagatRating))
-
         verify(mockRestaurantRepository).save(request)
     }
 

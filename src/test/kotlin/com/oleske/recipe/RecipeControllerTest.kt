@@ -2,6 +2,7 @@ package com.oleske.recipe
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.hamcrest.Matchers.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
@@ -22,7 +23,12 @@ internal class RecipeControllerTest {
     @MockBean
     lateinit var mockRecipeRepository: RecipeRepository
 
-    private val objectMapper = ObjectMapper()
+    private lateinit var objectMapper: ObjectMapper
+
+    @BeforeEach
+    internal fun setUp() {
+        objectMapper = ObjectMapper()
+    }
 
     @Test
     internal fun `create returns 201`() {

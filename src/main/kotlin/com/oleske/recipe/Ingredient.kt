@@ -1,6 +1,6 @@
 package com.oleske.recipe
 
-import javax.persistence.Embeddable
+import jakarta.persistence.Embeddable
 
 @Embeddable
 data class Ingredient(

@@ -57,6 +57,6 @@ tasks.jar {
 	from("build/asciidoc/html5") {
 		into("static")
 	}
-	setBaseName("wnk")
-	setVersion("0.0.1-SNAPSHOT")
+	archiveFileName.set("wnk")
+	archiveVersion.set("0.0.1-SNAPSHOT")
 }

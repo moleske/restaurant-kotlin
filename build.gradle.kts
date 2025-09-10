@@ -6,7 +6,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.7"
 	id("org.asciidoctor.jvm.convert") version "4.0.5"
 	kotlin("jvm") version "2.2.20"
-	kotlin("plugin.spring") version "2.2.10"
+	kotlin("plugin.spring") version "2.2.20"
 	kotlin("plugin.jpa") version "2.2.20"
 }
 

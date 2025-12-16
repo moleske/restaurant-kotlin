@@ -7,7 +7,7 @@ plugins {
 	id("org.asciidoctor.jvm.convert") version "4.0.5"
 	kotlin("jvm") version "2.2.21"
 	kotlin("plugin.spring") version "2.3.0"
-	kotlin("plugin.jpa") version "2.2.21"
+	kotlin("plugin.jpa") version "2.3.0"
 }
 
 repositories {

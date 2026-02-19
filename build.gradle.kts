@@ -32,7 +32,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
 	compilerOptions {
 		freeCompilerArgs.add("-Xjsr305=strict")
-		jvmTarget.set(JvmTarget.JVM_21)
+		jvmTarget.set(JvmTarget.JVM_25)
 	}
 }
 
